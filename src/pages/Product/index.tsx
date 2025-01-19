@@ -27,7 +27,7 @@ const Product = () => {
           <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas...
         </p>
       </Section>
-      <Gallery />
+      <Gallery defaultCover="https://placehold.co/299x299" name="Jogo Teste" />
     </>
   )
 }
