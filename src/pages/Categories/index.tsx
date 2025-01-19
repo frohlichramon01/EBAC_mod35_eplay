@@ -1,72 +1,49 @@
+import { useEffect, useState } from 'react'
 import ProductsList from '../../components/ProductList'
-import Game from '../../models/Game'
+import { Game } from '../Home'
 
-const promocoes: Game[] = [
-  {
-    id: 1,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 1'
-  },
-  {
-    id: 2,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 2'
-  },
-  {
-    id: 3,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 3'
-  }
-]
+const Categories = () => {
+  const [gamesAcao, setGamesAcao] = useState<Game[]>([])
+  const [gamesEsportes, setGamesEsportes] = useState<Game[]>([])
+  const [gamesSimulacao, setGamesSimulacao] = useState<Game[]>([])
+  const [gamesLuta, setGamesLuta] = useState<Game[]>([])
+  const [gamesRPG, setGamesRPG] = useState<Game[]>([])
 
-const emBreve: Game[] = [
-  {
-    id: 4,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 4'
-  },
-  {
-    id: 5,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 5'
-  },
-  {
-    id: 6,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 6'
-  }
-]
-const Categories = () => (
-  <>
-    <ProductsList games={promocoes} title="RPG" background="gray" />
-    <ProductsList games={emBreve} title="Ação" background="black" />
-    <ProductsList games={promocoes} title="Aventura" background="gray" />
-    <ProductsList games={emBreve} title="FPS" background="black" />
-  </>
-)
+  useEffect(() => {
+    fetch('https://fake-api-tau.vercel.app/api/eplay/acao')
+      .then((res) => res.json())
+      .then((res) => setGamesAcao(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/esportes')
+      .then((res) => res.json())
+      .then((res) => setGamesEsportes(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/simulacao')
+      .then((res) => res.json())
+      .then((res) => setGamesSimulacao(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/luta')
+      .then((res) => res.json())
+      .then((res) => setGamesLuta(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/rpg')
+      .then((res) => res.json())
+      .then((res) => setGamesRPG(res))
+  }, [])
+
+  return (
+    <>
+      <ProductsList games={gamesAcao} title="Ação" background="black" />
+      <ProductsList games={gamesEsportes} title="Esportes" background="gray" />
+      <ProductsList
+        games={gamesSimulacao}
+        title="Simulação"
+        background="black"
+      />
+      <ProductsList games={gamesLuta} title="Luta" background="gray" />
+      <ProductsList games={gamesRPG} title="RPG" background="black" />
+    </>
+  )
+}
 
 export default Categories

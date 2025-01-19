@@ -1,72 +1,57 @@
+import { useEffect, useState } from 'react'
 import Banner from '../../components/Banner'
 import ProductsList from '../../components/ProductList'
-import Game from '../../models/Game'
 
-const promocoes: Game[] = [
-  {
-    id: 1,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 1'
-  },
-  {
-    id: 2,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 2'
-  },
-  {
-    id: 3,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 3'
-  }
-]
+export interface GalleryItem {
+  type: 'image' | 'video'
+  url: string
+}
 
-const emBreve: Game[] = [
-  {
-    id: 4,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 4'
-  },
-  {
-    id: 5,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 5'
-  },
-  {
-    id: 6,
-    category: 'Action',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://placehold.co/222x250',
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PS4',
-    title: 'Jogo 6'
+export type Game = {
+  id: number
+  name: string
+  description: string
+  release_date?: string
+  prices: {
+    discount?: number
+    old?: number
+    current?: number
   }
-]
-const Home = () => (
-  <>
-    <Banner />
-    <ProductsList games={promocoes} title="Promoções" background="gray" />
-    <ProductsList games={emBreve} title="Em breve" background="black" />
-  </>
-)
+  details: {
+    category: string
+    system: string
+    developer: string
+    publisher: string
+    languages: string[]
+  }
+  media: {
+    thumbnail: string
+    cover: string
+    gallery: GalleryItem[]
+  }
+}
+
+const Home = () => {
+  const [promocoes, setPromocoes] = useState<Game[]>([])
+  const [emBreve, setEmBreve] = useState<Game[]>([])
+
+  useEffect(() => {
+    fetch('https://fake-api-tau.vercel.app/api/eplay/promocoes')
+      .then((res) => res.json())
+      .then((res) => setPromocoes(res))
+
+    fetch('https://fake-api-tau.vercel.app/api/eplay/em-breve')
+      .then((res) => res.json())
+      .then((res) => setEmBreve(res))
+  }, [])
+
+  return (
+    <>
+      <Banner />
+      <ProductsList games={promocoes} title="Promoções" background="gray" />
+      <ProductsList games={emBreve} title="Em breve" background="black" />
+    </>
+  )
+}
 
 export default Home
