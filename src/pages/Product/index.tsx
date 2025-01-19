@@ -2,32 +2,46 @@ import { useParams } from 'react-router-dom'
 import Hero from '../../components/Hero'
 import Section from '../../components/Section'
 import Gallery from '../../components/Gallery'
+import { Game } from '../Home'
+import { useEffect, useState } from 'react'
 
 const Product = () => {
   const { id } = useParams()
+  const [game, setGame] = useState<Game>()
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/eplay/jogos/${id}`)
+      .then((res) => res.json())
+      .then((res) => setGame(res))
+  }, [id])
+
+  if (!game) {
+    return <h3>Carregando...</h3>
+  }
 
   return (
     <>
-      <Hero />
+      <Hero game={game} />
       <Section title="Sobre o jogo" background="black">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure corporis
-          nesciunt perferendis quas aliquam nemo facilis qui debitis, rerum enim
-          quis quam, porro reprehenderit minima alias nulla consectetur
-          assumenda? Facere.
-        </p>
+        <p>{game.description}</p>
       </Section>
       <Section title="Mais detalhes" background="gray">
         <p>
-          <b>Plataforma:</b> Playstation 5 <br />
-          <b>Desenvolvedor:</b> Avalanche Software <br />
-          <b>Editora:</b> Portkey Games, subsidiária da Warner Bros. Interactive
-          Entertainment
+          <b>Plataforma:</b> {game.details.system}
           <br />
-          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas...
+          <b>Desenvolvedor:</b> {game.details.developer}
+          <br />
+          <b>Editora:</b> {game.details.publisher}
+          <br />
+          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas, incluindo:{' '}
+          {game.details.languages.join(', ')}
         </p>
       </Section>
-      <Gallery defaultCover="https://placehold.co/299x299" name="Jogo Teste" />
+      <Gallery
+        defaultCover={game.media.cover}
+        name={game.name}
+        items={game.media.gallery}
+      />
     </>
   )
 }
