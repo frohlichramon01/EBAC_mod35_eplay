@@ -8,6 +8,7 @@ export type Props = {
   title: string
   background: 'gray' | 'black'
   games: Game[]
+  id?: string
 }
 
 // Função para formatar o preço no formato de moeda brasileira
@@ -19,7 +20,7 @@ export const formataPreco = (preco = 0) => {
 }
 
 // Componente ProductsList
-const ProductsList = ({ title, background, games }: Props) => {
+const ProductsList = ({ title, background, games, id }: Props) => {
   // Função para obter tags de um jogo
   const getGameTags = (game: Game) => {
     const tags = []
@@ -40,7 +41,7 @@ const ProductsList = ({ title, background, games }: Props) => {
   }
 
   return (
-    <Container background={background}>
+    <Container id={id} background={background}>
       <div className="container">
         <h2>{title}</h2>
         <List>
