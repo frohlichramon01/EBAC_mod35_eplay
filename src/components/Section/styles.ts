@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Cores } from '../../styles'
+import { colors } from '../../styles'
 
 import { Props } from '.'
 import { Card } from '../Product/styles'
@@ -7,11 +7,11 @@ import { Card } from '../Product/styles'
 export const Container = styled.section<Omit<Props, 'title' | 'games'>>`
   padding: 32px 0;
   background-color: ${(props) =>
-    props.background === 'black' ? Cores.preta : Cores.cinza};
+    props.background === 'black' ? colors.black : colors.gray};
 
   ${Card} {
     background-color: ${(props) =>
-      props.background === 'black' ? Cores.cinza : Cores.preta};
+      props.background === 'black' ? colors.gray : colors.black};
   }
 
   p {
